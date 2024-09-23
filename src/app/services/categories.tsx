@@ -2,7 +2,6 @@ import React from "react";
 import { CategoriesData } from "@/utils/data";
 import CategoriesCard from "./categoriesCard";
 
-
 const Categories:React.FC = () => { 
 
   return (

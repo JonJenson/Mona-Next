@@ -23,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           isOpen
             ? 'w-[20%] min-w-[250px] translate-x-0 opacity-100'
             : 'w-0 overflow-hidden translate-x-[-100%] opacity-0'
-        } z-[1000] overflow-y-auto bg-gradient-to-b from-skyBlue to-skyBlue p-4 font-cormorant text-xl font-medium text-black rounded-br-xl rounded-tr-xl shadow-lg`}
+        } z-[1000] overflow-y-auto bg-gradient-to-b from-skyBlue to-skyBlue p-4 font-poppins text-lg font-medium text-black rounded-br-xl rounded-tr-xl shadow-lg`}
       >
         <div
           className='m-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-black'

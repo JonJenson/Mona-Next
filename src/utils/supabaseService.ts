@@ -18,6 +18,7 @@ export const insertCustomer = async (
   phone: string,
   email: string
 ) => {
+
   const { error } = await supabase.from('customers').insert([
     {
       name,
@@ -30,5 +31,22 @@ export const insertCustomer = async (
     throw new Error('Error inserting customer: ' + error.message)
   }
 
-  return true // Return success status
+  return true 
 }
+
+export const fetchCustomers = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('customers')
+      .select('*');
+
+    if (error) {
+      throw new Error(`Error fetching customers: ${error.message}`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching customers:", error);
+    throw error;
+  }
+};

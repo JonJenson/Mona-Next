@@ -1,7 +1,12 @@
 import './globals.css'
 import 'boxicons/css/boxicons.min.css'
 import { CartProvider } from '@/context/CartContext'
-import { Poppins, Playfair_Display, Great_Vibes, Cormorant_Garamond } from 'next/font/google'
+import {
+  Poppins,
+  Playfair_Display,
+  Great_Vibes,
+  Cormorant_Garamond
+} from 'next/font/google'
 
 // Load Poppins and Playfair Display fonts
 const poppins = Poppins({
@@ -35,9 +40,11 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <head>
-        <link rel="icon" href="/favicon-new.jpg" /> {/* Link to the favicon */}
+        <link rel='icon' href='/favicon-new.jpg' />
       </head>
-      <body className={`${poppins.variable} ${playfair.variable} ${greatVibes.variable}`}>
+      <body
+        className={`${poppins.variable} ${playfair.variable} ${greatVibes.variable} ${cormorantGaramond.variable}`}
+      >
         <CartProvider>{children}</CartProvider>
       </body>
     </html>

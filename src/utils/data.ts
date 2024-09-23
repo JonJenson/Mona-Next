@@ -51,7 +51,7 @@ export const CategoriesData = [
 export const SidebarData = [
   { title: 'Home', icon: 'bx-home', href: '/' },
   { title: 'Services', icon: 'bx-briefcase', href: '/services' },
-  { title: 'Payout', icon: 'bx-wallet', href: '/payout' },
+  { title: 'Checkout', icon: 'bx-wallet', href: '/checkout' },
   { title: 'Feedback', icon: 'bx-message-square-detail', href: '/feedback' }
 ]
 

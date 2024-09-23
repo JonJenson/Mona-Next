@@ -1,7 +1,10 @@
 export interface Service {
   id: number
-  name: string
+  title: string
+  description:string
   price: number
+  discountPrice:number
+  image:string
 }
 
 export interface UserDetails{

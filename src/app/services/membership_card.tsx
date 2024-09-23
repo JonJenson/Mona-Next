@@ -19,7 +19,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
   return (
     <Link href={link} className='my-6 card-wrap w-11/12 rounded-[20px] bg-[rgba(255,157,251,0.31)] shadow-[0_4px_4px_rgba(0,0,0,0.25)]'>
       <div className='image_and_content flex items-center gap-5 p-5'>
-        <img className='h-4/5 w-1/2' src={image} alt='Membership' />
+        <img className='h-40 w-40 rounded-md' src={image} alt='Membership' />
         <div className='content'>
           <h3 className='heading font-greatvibes text-2xl font-medium lg:text-3xl sm:text-3xl'>
             {heading}

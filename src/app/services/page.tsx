@@ -1,6 +1,6 @@
-import Categories from '@/components/categories'
-import MainLayout from '@/components/layout'
-import Membership from '@/components/membership'
+import Categories from './categories'
+import MainLayout from '@/components/mainLayout'
+import Membership from '@/app/services/membership'
 import React from 'react'
 
 const ServicesPage = () => {

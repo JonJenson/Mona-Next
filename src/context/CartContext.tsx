@@ -1,64 +1,63 @@
-'use client'
-import React, { createContext, useContext, useState, useEffect } from 'react'
-import { Service } from '@/lib/types'
+'use client';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { Service } from '@/lib/types';
 
 interface CartContextProps {
-  cart: Service[]
-  addToCart: (service: Service) => void
-  removeFromCart: (id: number) => void
-  clearCart: () => void
+  cart: Service[];
+  addToCart: (service: Service) => void;
+  removeFromCart: (id: number) => void;
+  clearCart: () => void;
 }
 
-const CartContext = createContext<CartContextProps | undefined>(undefined)
+const CartContext = createContext<CartContextProps | undefined>(undefined);
 
 export const useCart = () => {
-  const context = useContext(CartContext)
+  const context = useContext(CartContext);
   if (!context) {
-    throw new Error('useCart must be used within a CartProvider')
+    throw new Error('useCart must be used within a CartProvider');
   }
-  return context
-}
+  return context;
+};
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
-  children
+  children,
 }) => {
   const [cart, setCart] = useState<Service[]>(() => {
     if (typeof window !== 'undefined') {
-      const savedCart = localStorage.getItem('cart')
-      return savedCart ? JSON.parse(savedCart) : []
+      const savedCart = localStorage.getItem('cart');
+      return savedCart ? JSON.parse(savedCart) : [];
     }
-    return []
-  })
+    return [];
+  });
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart))
-  }, [cart])
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   const addToCart = (service: Service) => {
-    setCart(prevCart => {
-      const existingService = prevCart.find(i => i.id === service.id)
+    setCart((prevCart) => {
+      // Check if the service is already in the cart
+      const existingService = prevCart.find((item) => item.id === service.id);
       if (existingService) {
-        // If the service is already in the cart, you might want to update it or handle it accordingly
-        // For simplicity, this example does not handle updates since quantity is removed
-        return prevCart // or return prevCart.map(...) if updating is required
+        // If it exists, return the previous cart without adding it again
+        return prevCart;
       }
-      return [...prevCart, service]
-    })
-  }
+      // If it doesn't exist, add it to the cart
+      return [...prevCart, service];
+    });
+  };
 
   const removeFromCart = (id: number) => {
-    setCart(prevCart => prevCart.filter(service => service.id !== id))
-  }
+    setCart((prevCart) => prevCart.filter((service) => service.id !== id));
+  };
 
   const clearCart = () => {
-    setCart([])
-  }
+    setCart([]);
+  };
 
   return (
-    <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart }}
-    >
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
-  )
-}
+  );
+};

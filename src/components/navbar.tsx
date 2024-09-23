@@ -30,7 +30,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
           <div className="flex justify-center items-center w-8 h-8 bg-black rounded-full mx-2">
             <i className="bx bx-search text-white "></i>
           </div>
-          <Link href="/payout" className="flex justify-center items-center w-8 h-8 bg-black rounded-full mx-2 mr-6">
+          <Link href="/checkout" className="flex justify-center items-center w-8 h-8 bg-black rounded-full mx-2 mr-6">
             <i className="bx bx-cart text-white "></i>
           </Link>
 

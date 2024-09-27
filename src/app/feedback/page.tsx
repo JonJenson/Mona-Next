@@ -9,7 +9,6 @@ const services: Service[] = [
     title: "Haircut",
     description: "Professional haircut service.",
     price: 200,
-    discountPrice:200,
     image: "Eyebrow.png",
   },
   {
@@ -17,7 +16,6 @@ const services: Service[] = [
     title: "Manicure",
     description: "Luxurious manicure service.",
     price: 500,
-    discountPrice:200,
     image: "Eyebrow.png",
   },
   {
@@ -25,7 +23,6 @@ const services: Service[] = [
     title: "Massage",
     description: "Relaxing full body massage.",
     price: 1000,
-    discountPrice:200,
     image: "Eyebrow.png",
   },
 ];

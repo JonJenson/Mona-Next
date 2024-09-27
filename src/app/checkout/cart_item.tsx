@@ -28,7 +28,7 @@ const CartItem = () => {
               <img
                 src={item.image}
                 alt={item.title}
-                className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-md'
+                className='h-24 w-24 flex-shrink-0 overflow-hidden'
               />
               <div className='ml-4'>
                 <h3 className='text-lg font-medium'>{item.title}</h3>
@@ -38,12 +38,12 @@ const CartItem = () => {
             {/* Close Icon */}
             <i
               onClick={() => handleRemoveItem(item.id)}
-              className='bx bx-x absolute right-1 top-1 rounded-full border border-gray-400 p-1 text-xl text-gray-500 hover:text-red-500'
+              className='bx bx-x absolute right-1 top-1 rounded-full border-2 border-gray-400 text-xl text-gray-500 hover:text-red-500'
             ></i>
           </li>
         ))
       ) : (
-        <h1 className='mb-6 text-2xl font-bold'>No items in the cart</h1>
+        <h1 className='mb-6 text-2xl font-semibold font-playfair text-red-500'>No items in the cart</h1>
       )}
     </div>
   )

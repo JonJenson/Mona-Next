@@ -51,7 +51,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ onFormSubmit }) => {
     // Call the parent's onFormSubmit after 3 seconds
     setTimeout(() => {
       onFormSubmit(formData)
-    }, 3000)
+    }, 2000)
   }
 
   return (

@@ -50,3 +50,79 @@ export const fetchCustomers = async () => {
     throw error;
   }
 };
+
+/////// -----------------------------PDF Generators -----------------------------------//////
+
+/**
+ * Uploads a PDF Blob to Supabase storage and returns the file name and public URL.
+ * @param blob The PDF Blob to upload.
+ * @param userDetails User details object containing the customer's name.
+ * @param currentDate The current date object for generating the file name.
+ * @returns An object containing the fileName and publicUrl, or an error.
+ */
+export const uploadPDFToSupabase = async (blob: Blob, userDetails: { name: string }, currentDate: Date) => {
+  const day = String(currentDate.getDate()).padStart(2, '0')
+  const monthName = currentDate.toLocaleString('default', { month: 'long' })
+  const year = currentDate.getFullYear()
+  const folder = `${monthName}-${year}`
+  const fileName = `${folder}/invoice_${userDetails.name}_${day}.pdf`
+
+  try {
+    // Upload the PDF Blob to Supabase storage
+    const { error } = await supabase.storage.from('invoices').upload(fileName, blob, {
+      contentType: 'application/pdf',
+      upsert: true,
+    })
+
+    if (error) {
+      throw new Error(`Error uploading PDF: ${error.message}`)
+    }
+
+    // Get the public URL of the uploaded file
+    const { data } = supabase.storage.from('invoices').getPublicUrl(fileName)
+    const publicUrl = data?.publicUrl
+
+    if (!publicUrl) {
+      throw new Error('Error retrieving public URL')
+    }
+
+    return { fileName, publicUrl }
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+/**
+ * Inserts the invoice details into the Supabase 'invoices' table.
+ * @param fileName The name of the uploaded file.
+ * @param publicUrl The public URL of the uploaded file.
+ * @param userDetails User details object containing the customer's name.
+ * @param totalAmount The total amount of the invoice.
+ */
+export const insertInvoiceDetails = async (
+  fileName: string,
+  publicUrl: string,
+  userDetails: { name: string },
+  totalAmount: number
+) => {
+  try {
+    const { error: insertError } = await supabase.from('invoices').insert([
+      {
+        file_name: fileName,
+        url: publicUrl,
+        customer_name: userDetails.name,
+        total_amount: totalAmount,
+      },
+    ])
+
+    if (insertError) {
+      throw new Error(`Error inserting into invoices table: ${insertError.message}`)
+    }
+
+    console.log('Invoice details inserted successfully')
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}

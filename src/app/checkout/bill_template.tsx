@@ -8,6 +8,7 @@ interface BillTemplateProps {
   subtotal: number
   discount: number
   tax: number
+  date: string
 }
 
 const BillTemplate: React.FC<BillTemplateProps> = ({
@@ -15,7 +16,8 @@ const BillTemplate: React.FC<BillTemplateProps> = ({
   cartItems,
   subtotal,
   tax,
-  discount
+  discount,
+  date
 }) => {
   const total = subtotal + tax - discount
 
@@ -50,11 +52,11 @@ const BillTemplate: React.FC<BillTemplateProps> = ({
         </div>
         <div className='text-right'>
           <p>
-            Invoice number:{' '}
+            Invoice number:
             <span className='text-gray-500'>INV-2023786123</span>
           </p>
           <p>
-            Invoice date: <span className='text-gray-500'>03/07/2023</span>
+            Invoice date: <span className='text-gray-500'>{date}</span>
           </p>
         </div>
       </div>
@@ -157,7 +159,6 @@ const BillTemplate: React.FC<BillTemplateProps> = ({
           </tfoot>
         </table>
       </div>
-
       {/* <div className="border-t-2 pt-4 text-xs text-gray-500 text-center mt-16">
         Please pay the invoice before the due date. You can pay the invoice by logging in to your account from our client portal.
       </div> */}

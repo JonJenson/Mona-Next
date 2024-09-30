@@ -18,6 +18,7 @@ interface PDFGeneratorProps {
   tax: number
   clearCart: () => void
   router: any
+  onSuccess: () => void
 }
 
 const PDFGenerator: React.FC<PDFGeneratorProps> = ({
@@ -27,7 +28,9 @@ const PDFGenerator: React.FC<PDFGeneratorProps> = ({
   discount,
   tax,
   clearCart,
-  router
+  router,
+  onSuccess
+
 }) => {
   const currentDate = new Date()
   const day = String(currentDate.getDate()).padStart(2, '0')
@@ -76,9 +79,8 @@ const PDFGenerator: React.FC<PDFGeneratorProps> = ({
             )
 
             // Clear cart and navigate
-            clearCart()
-            localStorage.setItem('isLoggedIn', 'false')
-            localStorage.removeItem('userDetails')
+            onSuccess()
+
           } catch (error) {
             console.error(
               'An error occurred during the PDF upload or insertion:',
@@ -97,7 +99,7 @@ const PDFGenerator: React.FC<PDFGeneratorProps> = ({
   }, [clearCart, currentDate, discount, router, subtotal, tax, userDetails])
 
   return (
-    <>
+    
       <div id='invoice'>
         <BillTemplate
           userDetails={userDetails}
@@ -108,17 +110,6 @@ const PDFGenerator: React.FC<PDFGeneratorProps> = ({
           date={formattedDate}
         />
       </div>
-      {/*Suucees component render */}
-      <div className='fixed inset-0 z-50 flex items-center justify-center bg-gray-900/75'>
-        <div className='relative w-full max-w-lg rounded-md bg-white p-6'>
-          <i
-            onClick={router.push('/')}
-            className='bx bx-x absolute right-4 top-4 cursor-pointer rounded-full border border-gray-500 text-2xl text-gray-500 hover:text-red-500'
-          ></i>
-          <SuccessComponent />
-        </div>
-      </div>
-    </>
   )
 }
 

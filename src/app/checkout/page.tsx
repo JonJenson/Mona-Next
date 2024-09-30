@@ -8,6 +8,7 @@ import CartItem from './cart_item'
 import FormComponent from '@/app/checkout/formComponent'
 import { useCart } from '@/context/CartContext'
 import LoginComponent from './loginComponent'
+import SuccessComponent from './SucessComponent'
 
 // Dynamically import the PDFGenerator component to ensure it only runs client-side
 const PDFGenerator = dynamic(() => import('./pdfGenerator'), {
@@ -25,6 +26,7 @@ const Checkout: React.FC = () => {
   } | null>(null)
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const [showLogin, setShowLogin] = useState<boolean>(false)
+  const [showSuccess, setShowSuccess] = useState<boolean>(false)
 
   // Check the logged-in status after the component mounts
   useEffect(() => {
@@ -50,6 +52,12 @@ const Checkout: React.FC = () => {
       setIsFormVisible(prevState => !prevState)
     }
   }
+  const handleSuccess = () => {
+    clearCart()
+    localStorage.setItem('isLoggedIn', 'false')
+    localStorage.removeItem('userDetails')
+    router.push('/')
+  }
 
   const handleFormSubmit = (formData: {
     name: string
@@ -64,6 +72,10 @@ const Checkout: React.FC = () => {
     localStorage.setItem('isLoggedIn', 'true')
     setIsLoggedIn(true)
     setShowLogin(false)
+  }
+
+  const handlePDFSuccess = () => {
+    setShowSuccess(true)
   }
 
   return (
@@ -114,6 +126,13 @@ const Checkout: React.FC = () => {
             </div>
           </div>
         )}
+        {showSuccess && (
+          <div className='fixed inset-0 z-50 flex items-center justify-center bg-gray-900/75'>
+            <div className='relative w-full max-w-lg rounded-md bg-white p-6'>
+              <SuccessComponent onClose={handleSuccess} />
+            </div>
+          </div>
+        )}
 
         {userDetails && cart.length > 0 && (
           <PDFGenerator
@@ -124,6 +143,7 @@ const Checkout: React.FC = () => {
             tax={tax}
             clearCart={clearCart}
             router={router}
+            onSuccess={handlePDFSuccess}
           />
         )}
       </div>

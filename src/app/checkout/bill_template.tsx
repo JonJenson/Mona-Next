@@ -9,6 +9,7 @@ interface BillTemplateProps {
   discount: number
   tax: number
   date: string
+  membership:string
 }
 
 const BillTemplate: React.FC<BillTemplateProps> = ({
@@ -17,7 +18,8 @@ const BillTemplate: React.FC<BillTemplateProps> = ({
   subtotal,
   tax,
   discount,
-  date
+  date,
+  membership
 }) => {
   const total = subtotal + tax - discount
 
@@ -49,6 +51,7 @@ const BillTemplate: React.FC<BillTemplateProps> = ({
           <p className='text-gray-500'>{userDetails.name}</p>
           <p className='text-gray-500'>{userDetails.phone}</p>
           <p className='text-gray-500'>{userDetails.email}</p>
+          <p className='font-semibold text-gray-800'>({membership})</p>
         </div>
         <div className='text-right'>
           <p>

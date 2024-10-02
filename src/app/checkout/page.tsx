@@ -9,6 +9,7 @@ import FormComponent from '@/app/checkout/formComponent'
 import { useCart } from '@/context/CartContext'
 import LoginComponent from './loginComponent'
 import SuccessComponent from './SucessComponent'
+import MembershipDropdown from './membership_dropdown'
 
 // Dynamically import the PDFGenerator component to ensure it only runs client-side
 const PDFGenerator = dynamic(() => import('./pdfGenerator'), {
@@ -27,6 +28,10 @@ const Checkout: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const [showLogin, setShowLogin] = useState<boolean>(false)
   const [showSuccess, setShowSuccess] = useState<boolean>(false)
+  const [isGenerating, setIsGenerating] = useState<boolean>(false) // Initially false
+
+  const [SelectedMembership, setSelectedMembership] =
+    useState<string>('Choose Membership')
 
   // Check the logged-in status after the component mounts
   useEffect(() => {
@@ -48,14 +53,12 @@ const Checkout: React.FC = () => {
   const tax = 5
 
   const handleToggleForm = () => {
-    if (localStorage.getItem('isLoggedIn') === 'true') {
+    if (localStorage.getItem('isLoggedIn') === 'true' && cart.length > 0) {
       setIsFormVisible(prevState => !prevState)
     }
   }
+
   const handleSuccess = () => {
-    clearCart()
-    localStorage.setItem('isLoggedIn', 'false')
-    localStorage.removeItem('userDetails')
     router.push('/')
   }
 
@@ -66,6 +69,8 @@ const Checkout: React.FC = () => {
   }) => {
     setUserDetails(formData)
     setIsFormVisible(false)
+    setShowSuccess(true)
+    setIsGenerating(true)
   }
 
   const handleLoginSuccess = () => {
@@ -75,7 +80,7 @@ const Checkout: React.FC = () => {
   }
 
   const handlePDFSuccess = () => {
-    setShowSuccess(true)
+    setIsGenerating(false)
   }
 
   return (
@@ -85,22 +90,25 @@ const Checkout: React.FC = () => {
 
         <div className='flex flex-col gap-8 lg:flex-row'>
           <CartItem />
-          {cart.length > 0 && (
-            <div className='rounded-lg bg-gray-100 p-6 shadow-md lg:w-1/3'>
-              <TotalCartCheckout
-                subtotal={subtotal}
-                discount={discount}
-                tax={tax}
-              />
-              <br />
-              <button
-                onClick={handleToggleForm}
-                className='w-full rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700'
-              >
-                Checkout
-              </button>
-            </div>
-          )}
+          <div className='rounded-lg bg-gray-100 p-6 shadow-md lg:w-1/3'>
+            <TotalCartCheckout
+              subtotal={subtotal}
+              discount={discount}
+              tax={tax}
+            />
+
+            <MembershipDropdown
+              selectedPlan={SelectedMembership}
+              onPlanSelect={setSelectedMembership}
+            />
+
+            <button
+              onClick={handleToggleForm}
+              className='w-full rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700'
+            >
+              Checkout
+            </button>
+          </div>
         </div>
 
         {showLogin && !isLoggedIn && (
@@ -126,25 +134,32 @@ const Checkout: React.FC = () => {
             </div>
           </div>
         )}
+
         {showSuccess && (
           <div className='fixed inset-0 z-50 flex items-center justify-center bg-gray-900/75'>
             <div className='relative w-full max-w-lg rounded-md bg-white p-6'>
-              <SuccessComponent onClose={handleSuccess} />
+              <SuccessComponent
+                onClose={handleSuccess}
+                loading={isGenerating}
+              />
             </div>
           </div>
         )}
 
         {userDetails && cart.length > 0 && (
-          <PDFGenerator
-            userDetails={userDetails}
-            cartItems={cart}
-            subtotal={subtotal}
-            discount={discount}
-            tax={tax}
-            clearCart={clearCart}
-            router={router}
-            onSuccess={handlePDFSuccess}
-          />
+          <div className='hidden'>
+            <PDFGenerator
+              userDetails={userDetails}
+              cartItems={cart}
+              subtotal={subtotal}
+              discount={discount}
+              tax={tax}
+              clearCart={clearCart}
+              router={router}
+              onSuccess={handlePDFSuccess}
+              selectedMembership={SelectedMembership}
+            />
+          </div>
         )}
       </div>
     </MainLayout>

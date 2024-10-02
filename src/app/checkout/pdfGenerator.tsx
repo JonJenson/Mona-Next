@@ -8,7 +8,6 @@ import {
   uploadPDFToSupabase,
   insertInvoiceDetails
 } from '@/utils/supabaseService'
-import SuccessComponent from './SucessComponent'
 
 interface PDFGeneratorProps {
   userDetails: { name: string; phone: string; email: string }
@@ -16,6 +15,7 @@ interface PDFGeneratorProps {
   subtotal: number
   discount: number
   tax: number
+  selectedMembership: string
   clearCart: () => void
   router: any
   onSuccess: () => void
@@ -29,8 +29,8 @@ const PDFGenerator: React.FC<PDFGeneratorProps> = ({
   tax,
   clearCart,
   router,
-  onSuccess
-
+  onSuccess,
+  selectedMembership
 }) => {
   const currentDate = new Date()
   const day = String(currentDate.getDate()).padStart(2, '0')
@@ -78,9 +78,10 @@ const PDFGenerator: React.FC<PDFGeneratorProps> = ({
               totalAmount
             )
 
-            // Clear cart and navigate
+            clearCart()
+            localStorage.setItem('isLoggedIn', 'false')
+            localStorage.removeItem('userDetails')
             onSuccess()
-
           } catch (error) {
             console.error(
               'An error occurred during the PDF upload or insertion:',
@@ -96,20 +97,20 @@ const PDFGenerator: React.FC<PDFGeneratorProps> = ({
           }
         })
     }
-  }, [clearCart, currentDate, discount, router, subtotal, tax, userDetails])
+  }, [clearCart, discount, router, subtotal, tax, userDetails])
 
   return (
-    
-      <div id='invoice'>
-        <BillTemplate
-          userDetails={userDetails}
-          cartItems={cartItems}
-          subtotal={subtotal}
-          discount={discount}
-          tax={tax}
-          date={formattedDate}
-        />
-      </div>
+    <div id='invoice'>
+      <BillTemplate
+        userDetails={userDetails}
+        cartItems={cartItems}
+        subtotal={subtotal}
+        discount={discount}
+        tax={tax}
+        date={formattedDate}
+        membership={selectedMembership}
+      />
+    </div>
   )
 }
 

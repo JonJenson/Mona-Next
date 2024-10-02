@@ -1,5 +1,5 @@
+'use client'
 import React, { useEffect, useState } from "react";
-import MembershipDropdown from "./membership_dropdown";
 
 interface TotalCartCheckoutProps {
   subtotal: number;
@@ -47,7 +47,6 @@ const TotalCartCheckout: React.FC<TotalCartCheckoutProps> = ({
         <h3 className="text-xl font-medium text-red-500">Total</h3>
         <p className="text-red-500 text-xl">₹{total.toFixed(2)}</p>
       </div>
-      <MembershipDropdown />
     </div>
   );
 };

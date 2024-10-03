@@ -6,6 +6,7 @@ import Home3 from '@/components/home3'
 import MainLayout from '@/components/mainLayout'
 
 const HomePage = () => {
+  console.log("https://chatgpt.com/share/66fd7c8c-7b3c-8001-b074-dc3aa30d5fef")
   const [currentIndex, setCurrentIndex] = useState(0)
   const components = [
     <Home1 key='home1' />,

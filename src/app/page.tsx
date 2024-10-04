@@ -7,6 +7,7 @@ import MainLayout from '@/components/mainLayout'
 
 const HomePage = () => {
   console.log("https://vvuwhceeaouuuibxzpfn.supabase.co/storage/v1/object/public/invoices/ChatGPT%20(6).pdf")
+  console.log("https://chatgpt.com/share/66fea088-9c58-8000-beef-597f80d0bd70") 
   const [currentIndex, setCurrentIndex] = useState(0)
   const components = [
     <Home1 key='home1' />,

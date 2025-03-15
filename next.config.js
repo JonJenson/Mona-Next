@@ -3,7 +3,7 @@ const path = require('path');
 
 const nextConfig = {
   experimental: {
-    appDir: true, // Enable the app directory feature
+    // appDir: true, // Enable the app directory feature
   },
   pageExtensions: ['ts', 'tsx'], // Add support for TypeScript pages
   webpack: (config) => {

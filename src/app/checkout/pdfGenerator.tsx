@@ -1,4 +1,3 @@
-// PDFGenerator.tsx
 'use client'
 import { useEffect, useRef } from 'react'
 import html2pdf from 'html2pdf.js'
@@ -18,7 +17,7 @@ interface PDFGeneratorProps {
   selectedMembership: string
   clearCart: () => void
   router: any
-  onSuccess: () => void
+  onSuccess: (url: string) => void
 }
 
 const PDFGenerator: React.FC<PDFGeneratorProps> = ({
@@ -42,7 +41,6 @@ const PDFGenerator: React.FC<PDFGeneratorProps> = ({
   const isEffectRan = useRef(false)
 
   useEffect(() => {
-    // Prevent the effect from running more than once
     if (isEffectRan.current) return
     isEffectRan.current = true
 
@@ -81,7 +79,9 @@ const PDFGenerator: React.FC<PDFGeneratorProps> = ({
             clearCart()
             localStorage.setItem('isLoggedIn', 'false')
             localStorage.removeItem('userDetails')
-            onSuccess()
+
+            // Call the onSuccess callback with the generated PDF public URL
+            onSuccess(publicUrl)
           } catch (error) {
             console.error(
               'An error occurred during the PDF upload or insertion:',

@@ -28,8 +28,8 @@ const Checkout: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const [showLogin, setShowLogin] = useState<boolean>(false)
   const [showSuccess, setShowSuccess] = useState<boolean>(false)
-  const [isGenerating, setIsGenerating] = useState<boolean>(false) // Initially false
-
+  const [isGenerating, setIsGenerating] = useState<boolean>(false)
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null)
   const [SelectedMembership, setSelectedMembership] =
     useState<string>('Choose Membership')
 
@@ -58,8 +58,20 @@ const Checkout: React.FC = () => {
     }
   }
 
+  // Callback from PDFGenerator that receives the public URL
+  const handlePDFSuccess = (url: string) => {
+    setPdfUrl(url)
+    setIsGenerating(false)
+    setShowSuccess(true)
+  }
+
+  // When user clicks "Continue" in SuccessComponent, redirect to the PDF URL.
   const handleSuccess = () => {
-    router.push('/')
+    if (pdfUrl) {
+      window.location.href = pdfUrl
+    } else {
+      router.push('/')
+    }
   }
 
   const handleFormSubmit = (formData: {
@@ -77,10 +89,6 @@ const Checkout: React.FC = () => {
     localStorage.setItem('isLoggedIn', 'true')
     setIsLoggedIn(true)
     setShowLogin(false)
-  }
-
-  const handlePDFSuccess = () => {
-    setIsGenerating(false)
   }
 
   return (

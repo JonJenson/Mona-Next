@@ -12,8 +12,11 @@ const SuccessComponent: React.FC<SuccessComponentProps> = ({ onClose, loading })
       </h2>
 
       <button
-        className={`w-full rounded-md px-4 py-2 text-white ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600'}`}
+        className={`w-full rounded-md px-4 py-2 text-white ${
+          loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600'
+        }`}
         onClick={onClose}
+        disabled={loading}
       >
         Continue
       </button>
